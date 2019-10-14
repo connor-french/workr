@@ -16,3 +16,7 @@ Description: Interactive tutorials for working with R
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
