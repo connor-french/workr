@@ -1,0 +1,18 @@
+Package: workr
+Title: Interactive tutorials for working with R
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Natalie",
+           family = "O'Shea",
+           role = c("aut", "cre"),
+           email = "ms.natalieoshea@gmail.com",
+           comment = c(ORCID = "0000-0001-7061-2481"))
+    person(given = "Connor",
+           family = "French",
+           role = c("aut", "cre"),
+           email = "french.connor.m@gmail.com",
+           comment = c(ORCID = "0000-0002-5255-3884"))
+Description: Interactive tutorials for working with R
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
