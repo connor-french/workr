@@ -1,0 +1,482 @@
+---
+title: "Data Wrangling in R"
+tutorial:
+  id: "io.shinyapps.tutorials.02-isolating"
+  version: 0.01
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+    df_print: default
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+
+checker_fun <- function(label, user_code, check_code, envir_result, evaluate_result, ...) {
+  list(message = check_code, correct = TRUE, location = "append")
+}
+tutorial_options(exercise.timelimit = 60, exercise.checker = checker_fun)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Welcome
+
+In this case study, you will explore qualities of your favorite music genres. Along the way, you will master some of the most useful functions for isolating and summarizing variables, cases, and values within a data frame:
+
+* `select()` and `filter()`, which let you extract columns and rows from a data frame
+* `arrange()`, which lets you reorder the rows in your data
+* `group_by()`, which lets you group your data by a factor
+* `summarize()`, which lets you perform a function on your grouped data
+* `%>%`, which organizes your code into reader-friendly "pipes"
+
+This tutorial uses the [core tidyverse packages](http://tidyverse.org/), including ggplot2, tibble, and dplyr. 
+
+Click the Next Topic button to begin.
+
+## Music
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+library(tidyverse)
+spotify <- read_csv("/Users/connorfrench/Dropbox/Old_Mac/workshops/primers/transform-data/02-isolating/data.csv")
+```
+
+
+### Trends in your favorite music
+
+You can use the provided `spotify` data to learn more about your favorite music genres. For instance, which of your favorite musical genres will pep you up the most?
+
+```{r echo = FALSE, message = FALSE, warning = FALSE, out.width = "70%"}
+spotify %>% 
+  dplyr::filter(genre == str_match(genre, pattern = "Ska|Rock|Rap|Indie|Jazz|Classical")) %>% 
+  group_by(genre) %>% 
+  summarize_if(is.numeric, mean) %>% 
+  mutate(genre = fct_reorder(genre, energy)) %>% 
+  ggplot(aes(x = genre, y = energy)) +
+  geom_col() +
+  labs(title = "Which musical genre has the most energy?", 
+       x = "Genre",
+       y = "Energy") +
+  coord_flip() +
+  theme_minimal() +
+  theme(text = element_text(size = 14))
+```
+
+But before you do, you will need to trim down `spotify`. At the moment, there are more rows in `spotify` than you need to build your plot. 
+
+### An example
+
+To see what I mean, consider how I made the plot above: I began with the entire data set, which if I plotted everything as a scatterplot would've looked like this. This is a big jumbled mess. It doesn't tell me much about what I'm interested in.
+
+```{r out.width = "60%", cached = TRUE}
+spotify %>% 
+  ggplot(aes(x = genre, y = energy)) +
+  geom_point() +
+  labs(title = "Which musical genre has the most energy?", 
+       x = "Genre",
+       y = "Energy") +
+  coord_flip() +
+  theme_minimal() +
+  theme(text = element_text(size = 12))
+```
+
+I then narrowed the data to just the rows that contain my selected genres. Here's how the rows with just the genres I'm interested in look as a scatterplot.
+
+```{r out.width = "60%", cached = TRUE}
+spotify %>% 
+  dplyr::filter(genre == str_match(genre, pattern = "Ska|Rock|Rap|Indie|Jazz|Classical")) %>% 
+  ggplot(aes(x = genre, y = energy)) +
+  geom_point() +
+  labs(title = "Which musical genre has the most energy?", 
+       x = "Genre",
+       y = "Energy") +
+  coord_flip() +
+  theme_minimal() +
+  theme(text = element_text(size = 12))
+```
+
+This tells me a little bit more about the data, but I'm really just interested in the average. This leads us back to my first plot, which shows the average energy for each genre.
+
+Your goal in this section is to repeat this process for your own genres. Along the way, you will learn a set of functions that isolate and summarize information within a data set. 
+
+### Isolating data
+
+This type of task occurs often in Data Science: you need to extract data from a table before you can use it. You can do this task quickly with three functions that come in the dplyr package:
+
+1. **select()** - which extracts columns from a data frame
+1. **filter()** - which extracts rows from a data frame
+1. **arrange()** - which moves important rows to the top of a data frame
+
+Each function takes a data frame or tibble as it's first argument and returns a new data frame or tibble as its output. 
+
+## select()
+
+`select()` extracts columns of a data frame and returns the columns  as a new data frame. To use `select()`, pass it the name of a data frame to extract columns from, and then the names of the columns to extract. The column names do not need to appear in quotation marks or be prefixed with a `$`; `select()` knows to find them in the data frame that you supply.
+
+### Exercise - select()
+
+Use the example below to get a feel for `select()`. Can you extract just the `genre` column? How about the `genre` and `energy` columns? How about all of the columns except `danceability`?
+
+```{r select-1, exercise = TRUE, exercise.eval = TRUE, exercise.setup = "spotify"}
+select(spotify, loudness)
+```
+
+```{r select-1-solution}
+select(spotify, genre)
+select(spotify, genre, energy)
+select(spotify, genre, energy, loudness, tempo)
+select(spotify, -danceability)
+```
+
+### select() helpers
+
+You can also use a series of helpers with `select()`. For example, if you place a minus sign before a column name, `select()` will return every column but that column. Can you predict how the minus sign will work here?
+  
+```{r select-2, exercise = TRUE, exercise.setup = "spotify"}
+select(spotify, -c(genre, energy))
+```
+
+The table below summarizes the other `select()` helpers that are available in dplyr. Study it, and then click "Continue" to test your understanding.
+
+Helper Function   | Use                                               | Example
+----------------- | ------------------------------------------------- | -------
+**-**             | Columns except                               | `select(spotify, -loudness)`
+**:**             | Columns between (inclusive)                  | `select(spotify, loudness:danceability)`
+**contains()**    | Columns that contains a string               | `select(spotify, contains("d"))`
+**ends_with()**   | Columns that ends with a string              | `select(spotify, ends_with("y"))`
+**matches()**     | Columns that matches a regex                 | `select(spotify, matches("n"))`
+**num_range()**   | Columns with a numerical suffix in the range | Not applicable with `spotify`
+**one_of()**      | Columns whose name appear in the given set     | `select(spotify, one_of(c("energy", "tempo")))`
+**starts_with()** | Columns that starts with a string            | `select(spotify, starts_with("e"))`
+
+### select() quiz
+
+```{r select-quiz}
+question(
+  "Which of these is *not* a way to select only the `loudness` and `danceability` columns together?",
+  answer("select(spotify, -c(genre, energy, tempo))"),
+  answer("select(spotify, loudness:danceability)", correct = TRUE),
+  answer('select(spotify, contains("d"))'),
+  answer('select(spotify, one_of(c("loudness", "danceability", "speed")))'),
+  allow_retry = TRUE
+)
+```
+
+### Go further
+The `mutate()` function is another highly useful tool for manipulating columns. While `select()` allows you to choose columns, `mutate()` enables you to change existing columns and add new columns. For instance, you're able perform arithmetic on numeric columns or create a new column that is a combination of two existing columns. For a light introduction, [check this out](https://dplyr.tidyverse.org/reference/mutate.html). 
+
+## filter()
+
+`filter()` extracts rows from a data frame and returns them as a new data frame. As with `select()`, the first argument of `filter()` should be a data frame to extract rows from. The arguments that follow should be logical tests; `filter()` will return every row for which the tests return `TRUE`.
+
+### filter in action
+
+For example, the code chunk below returns every row with the genre "Alternative" in `spotify`. 
+
+```{r echo = TRUE}
+filter(spotify, genre == "Alternative")
+```
+
+### Logical tests
+
+To get the most from filter, you will need to know how to use R's logical test operators, which are summarised below.
+
+Logical operator | tests                                | Example
+---------------- | ------------------------------------ | ---------
+**>**            | Is `x` greater than `y`?             | `x > y`
+**>=**           | Is `x` greater than or equal to `y`? | `x >= y`
+**<**            | Is `x` less than `y`?                | `x < y`
+**<=**           | Is `x` less than or equal to `y`?    | `x <= y`
+**==**           | Is `x` equal to `y`?                 | `x == y`
+**!=**           | Is `x` not equal to `y`?             | `x != y`
+**is.na()**      | Is `x` an `NA`?                      | `is.na(x)`
+**!is.na()**     | Is `x` not an `NA`?                  | `!is.na(x)`
+
+### Exercise - Logical Operators
+
+See if you can use the logical operators to manipulate our code below to show:
+
+* All of the songs where tempo is less than or equal to 80
+* All of the songs in the "Rap" genre
+* All of the names that have a missing value for `energy` (Hint: this should return an empty data set).
+
+```{r filter-0, exercise = TRUE, exercise.setup = "spotify"}
+filter(spotify, genre == "Ska")
+```
+
+```{r filter-0-solution}
+filter(spotify, tempo <= 80)
+filter(spotify, genre == "Rap")
+filter(spotify, is.na(energy))
+```
+
+
+### Two common mistakes
+
+When you use logical tests, be sure to look out for two common mistakes. One appears in each code chunk below. Can you find them? When you spot a mistake, fix it and then run the chunk to confirm that it works.
+
+```{r eval = FALSE, echo = TRUE}
+filter(spotify, genre = "Ska")
+```
+
+```{r filter-1a, exercise = TRUE, exercise.setup = "spotify"}
+```
+
+```{r filter-1a-solution}
+filter(spotify, genre == "Ska")
+```
+
+```{r filter-1a-check}
+"Good Job! Remember to use == instead of = when testing for equality."
+```
+
+```{r eval = FALSE, echo = TRUE}
+filter(spotify, genre == Ska)
+```
+
+```{r filter-1b, exercise = TRUE, exercise.setup = "spotify"}
+```
+
+```{r filter-1b-solution}
+filter(spotify, genre == "Ska")
+```
+
+```{r filter-1b-check}
+"Good Job! As written this code would check that name is equal to the contents of the object named Ska, which does not exist."
+```
+
+### Two mistakes - Recap
+
+When you use logical tests, be sure to look out for these two common mistakes:
+
+1. using `=` instead of `==` to test for equality.
+2. forgetting to use quotation marks when comparing strings, e.g. `genre == Ska`, instead of `genre == "Ska"` 
+
+### Combining tests
+
+If you provide more than one test to `filter()`, `filter()` will combine the tests with an **and** statement (`&`): it will only return the rows that satisfy all of the tests. 
+
+To combine multiple tests in a different way, use R's Boolean operators. For example, the code below will return all of the songs in the Ska or Rock genres.
+
+```{r echo = TRUE}
+filter(spotify, genre == "Ska" | genre == "Rock")
+```
+
+### Boolean operators
+
+You can find a complete list or base R's boolean operators in the table below.
+
+Boolean operator | represents                                 | Example
+---------------- | ------------------------------------------ | ---------
+**&**            | Are _both_ `A` and `B` true?               | `A & B`
+`|`            | Are _one or both_ of `A` and `B` true?     | `A | B`
+**!**            | Is `A` _not_ true?                         | `!A`
+**xor()**        | Is _one and only one_ of `A` and `B` true? | `xor(A, B)`
+**%in%**         | Is `x` in the set of `a`, `b`, and `c`?    | `x %in% c(a, b, c)`
+**any()**        | Are _any_ of `A`, `B`, or `C` true?        | `any(A, B, C)`
+**all()**        | Are _all_ of `A`, `B`, or `C` true?        | `all(A, B, C)`
+
+### Exercise - Combining tests
+
+Use Boolean operators to alter the code chunk below to return only the rows that contain:
+
+* Very loud rock songs- Rock songs with loudness greater than -3.0 decibles
+* Radio-ready pop songs- Pop songs with a tempo between 100 and 130 BPM
+* The ultimate party playlist- Only Dance, Electronic, and Hip-Hop songs
+
+```{r filter-2, exercise = TRUE, exercise.eval = TRUE, exercise.setup = "spotify"}
+filter(spotify, genre == "Rap" | genre == "Classical")
+```
+
+```{r filter-2-solution}
+filter(spotify, genre == "Rock", loudness > -3.0)
+filter(spotify, tempo > 100, tempo < 130)
+filter(spotify, tempo >= 100, tempo <= 130)
+filter(spotify, genre %in% c("Dance", "Electronic", "Hip-Hop"))
+```
+
+### Two more common mistakes
+
+Logical tests also invite two common mistakes that you should look out for. Each is displayed in a code chunk below, one produces an error and the other is needlessly verbose. Diagnose the chunks and then fix the code.
+
+```{r eval = FALSE, echo = TRUE}
+filter(spotify, 0.4 < energy < 0.7)
+```
+
+```{r filter-3, exercise = TRUE, exercise.setup = "spotify"}
+```
+
+```{r filter-3-solution}
+filter(spotify, 0.4 < energy, energy < 0.7)
+```
+
+```{r filter-3-check}
+"Good job! You cannot combine two logical tests in R without using a Boolean operator (or at least a comma between filter arguments)."
+```
+
+```{r eval = FALSE, echo = TRUE}
+filter(spotify, genre == "Alternative" | genre == "Indie" | genre == "Rock" | genre == "Ska")
+```
+
+```{r filter-4, exercise = TRUE, exercise.setup = "bnames"}
+```
+
+```{r filter-4-solution}
+filter(spotify, genre %in% c("Alternative", "Indie", "Rock", "Ska"))
+```
+
+```{r filter-4-check}
+"Good job! Although the first code works, you should make your code more concise by collapsing multiple or statements into an %in% statement when possible."
+```
+
+### Two more common mistakes - Recap
+
+When you combine multiple logical tests, be sure to look out for these two common mistakes:
+
+1. Collapsing multiple logical tests into a single test _without using a boolean operator_ 
+1. Using repeated `|` instead of `%in%`, e.g. `x == 1 | x == 2 | x == 3` instead of `x %in% c(1, 2, 3)`
+
+### Go further
+The `stringr` package is very helpful for manipulating strings in R. It's part of the core tidyverse set of packages, so it is easy to integrate into your data wrangling pipeline. It takes some of the pain away from forming your own `regex` expressions, but is flexible enough to accomodate complex cases. I use `stringr` regularly within `filter()` and `mutate()`. If you're interested, check out [this light introduction](https://stringr.tidyverse.org/).
+
+## arrange()
+
+`arrange()` returns all of the rows of a data frame reordered by the values of a column. As with `select()`, the first argument of `arrange()` should be a data frame and the remaining arguments should be the names of columns. If you give `arrange()` a single column name, it will return the rows of the data frame reordered so that the row with the lowest value in that column appears first, the row with the second lowest value appears second, and so on. If the column contains character strings, `arrange()` will place them in alphabetical order.
+
+### Exercise - arrange()
+
+Use the code chunk below to arrange `spotify` by `energy`. Can you tell what the smallest value of `energy` is? 
+
+```{r arrange-1, exercise = TRUE, exercise.setup = "spotify"}
+```
+
+```{r arrange-1-solution}
+arrange(spotify, energy)
+```
+
+```{r arrange-1-check}
+"Good job!"
+```
+
+### Tie breakers
+
+If you supply additional column names, `arrange()` will use them as tie breakers to order rows that have identical values in the earlier columns. Add to the code below, to make `energy` a tie breaker. The result should first order rows by value of `loudness` and then reorder rows within each value of `loudness` by values of `energy`. 
+
+```{r arrange-2, exercise = TRUE, exercise.eval = TRUE}
+arrange(spotify, loudness)
+```
+
+```{r arrange-2-solution}
+arrange(spotify, loudness, energy)
+```
+
+### desc
+
+If you would rather arrange rows in the opposite order, i.e. from _large_ values to _small_ values, surround a column name with `desc()`. `arrange()` will reorder the rows based on the largest values to the smallest.
+
+Add a `desc()` to the code below to display the loudest and least danceable song.
+
+```{r arrange-3, exercise = TRUE, exercise.eval = TRUE}
+arrange(spotify, loudness, desc(danceability))
+```
+
+```{r arrange-3-solution}
+arrange(spotify, desc(loudness), desc(danceability))
+```
+
+Think you have it? Click Continue to test yourself.
+
+### arrange() quiz
+
+If academia doesn't work out, I want to open up a jazz club that a younger crowd would actually want to attend. It's a much safer financial decision, I know. To do that, I want to feature jazz that's danceable, high-energy, but not too loud (I don't want to have to yell over the sax player to order a drink). In the code chunk below, use `arrange()` to make the row with the simultaneously largest value of `danceability`, largest value of `energy`, and lowest value of `loudness`  appear at the top of the data set (in that order). I've filtered the dataset already to only include jazz songs. I've called this new dataset `jazz`.
+
+```{r arrange-4, exercise = TRUE, exercise.setup = "spotify"}
+jazz <- filter(spotify, genre == "Jazz")
+arrange(jazz, desc(danceability))
+```
+
+```{r arrange-4-solution}
+arrange(spotify, desc(danceability), desc(energy), loudness)
+```
+
+On Friday nights I might want some louder songs, so partiers can hear us down the street. Now arrange `spotify` so that the most loud jazz songs are prioritized, followed by danceability and energy.
+
+```{r arrange-5, exercise = TRUE, exercise.setup = "spotify"}
+jazz <- filter(spotify, genre == "Jazz")
+```
+
+```{r arrange-5-solution}
+arrange(spotify, desc(loudness), desc(danceability), desc(energy))
+```
+
+```{r arrange-5-check}
+"Yay for tinnitus!"
+```
+
+## %>%
+
+### Steps
+
+Notice how each dplyr function takes a data frame as input and returns a data frame as output. This makes the functions easy to use in a step by step fashion. For example, you could:
+
+1. Filter `spotify` to just Rap songs
+2. Select the `loudness` and `energy` columns from the result
+3. Arrange those columns so that the loudest songs appear near the top.
+
+```{r echo = TRUE}
+loud_rap <- filter(spotify, genre == "Rap")
+loud_rap <- select(loud_rap, loudness, energy)
+loud_rap <- arrange(loud_rap, desc(loudness))
+loud_rap
+```
+
+### Redundancy
+
+The result shows us the loudest rap songs and their energy levels in our data set. But take a look at the code. Do you notice how we re-create `loud_rap` at each step so we will have something to pass to the next step? This is an inefficient way to write R code.
+
+You could avoid creating `loud_rap` by nesting your functions inside of each other, but this creates code that is hard to read:
+
+```{r echo = TRUE, eval = FALSE}
+arrange(select(filter(spotify, genre == "Rap"), loudness, energy), desc(loudness))
+```
+
+The dplyr package provides a third way to write sequences of functions: the pipe.
+
+### %>%
+
+The pipe operator `%>%` performs an extremely simple task: it passes the result on its left into the first argument of the function on its right. Or put another way, `x %>% f(y)` is the same as `f(x, y)`. This piece of code punctuation makes it easy to write and read series of functions that are applied in a step by step way. For example, we can use the pipe to rewrite our code above:
+
+```{r echo = TRUE}
+spotify %>% 
+  filter(genre == "Rap") %>% 
+  select(loudness, energy) %>% 
+  arrange(desc(loudness))
+```
+
+As you read the code, pronounce `%>%` as "then". You'll notice that dplyr makes it easy to read pipes. Each function name is a verb, so our code resembles the statement, "Take spotify, _then_ filter it by genre, _then_ select the loudness and energy, _then_ arrange the results by descending values of loudness."
+
+dplyr also makes it easy to write pipes. Each dplyr function returns a data frame that can be piped into another dplyr function, which will accept the data frame as its first argument. In fact, dplyr functions are written with pipes in mind: each function does one simple task. dplyr expects you to use pipes to combine these simple tasks to produce sophisticated results.
+
+### Exercise - Pipes
+
+I'll use pipes for the remainder of the tutorial, and I will expect you to as well. Let's practice a little by writing a new pipe in the chunk below. The pipe should:
+
+1. Filter spotify to just the songs that are above 0.50 danceability
+2. Select the `tempo` and `energy` columns
+3. Arrange the results so that the fastest songs are near the top.
+
+Try to write your pipe without copying and pasting the code from above.
+
+```{r pipe-1, exercise = TRUE, exercise.setup = "spotify"}
+```
+
+```{r pipe-1-solution}
+spotify %>% 
+  filter(danceability > 0.50) %>% 
+  select(tempo, energy) %>% 
+  arrange(desc(tempo))
+```
+
+

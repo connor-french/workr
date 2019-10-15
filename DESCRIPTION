@@ -1,5 +1,5 @@
 Package: workr
-Title: Interactive tutorials for working with R
+Title: Interactive Tutorials For Working With R
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Natalie",
@@ -12,11 +12,17 @@ Authors@R:
            role = c("aut", "cre"),
            email = "french.connor.m@gmail.com",
            comment = c(ORCID = "0000-0002-5255-3884"))
-Description: Interactive tutorials for working with R
+Description: Interactive tutorials for working with R.
+Depends:
+    R (>= 3.5.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    tidyverse,
+    learnr
 Suggests: 
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+RoxygenNote: 6.1.1
