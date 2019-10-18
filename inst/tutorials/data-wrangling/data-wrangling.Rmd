@@ -23,6 +23,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ## Welcome
+The layout and much of the content in this tutorial borrows from [RStudio Primers](https://rstudio.cloud/learn/primers), and the `spotify` data is modified from [this kaggle data set](https://www.kaggle.com/zaheenhamidani/ultimate-spotify-tracks-db). I would highly recommend exploring [RStudio Primers](https://rstudio.cloud/learn/primers) as they are a great resource for learning basic and intermediate R concepts!
 
 In this case study, you will explore qualities of your favorite music genres. Along the way, you will master some of the most useful functions for isolating and summarizing variables, cases, and values within a data frame:
 
@@ -414,6 +415,58 @@ arrange(spotify, desc(loudness), desc(danceability), desc(energy))
 ```{r arrange-5-check}
 "Yay for tinnitus!"
 ```
+
+## summarise()
+
+Every data frame that you meet implies more information than it displays. For example, `spotify` does not display the average energy of a genre, but `spotify` certainly implies what that number is. To discover the number, you only need to do a calculation:
+
+```{r echo = TRUE}
+spotify %>% 
+  filter(genre == "Rock") %>% 
+  summarise(avg_energy = mean(energy))
+```
+
+`summarise()` takes a data frame and uses it to calculate a new data frame of summary statistics. 
+
+### Syntax
+
+To use `summarise()`, pass it a data frame and then one or more named arguments. Each named argument should be set to an R expression that generates a single value. Summarise will turn each named argument into a column in the new data frame. The name of each argument will become the column name, and the value returned by the argument will become the column contents.
+
+### Example
+
+I used `summarise()` above to calculate the total number of songs in the "Rock" genre, but let's expand that code to also calculate 
+
+* `max` - the Rock song with the most energy 
+* `sum` - the combined
+
+```{r echo = TRUE}
+babynames %>% 
+  filter(name == "Garrett", sex == "M") %>% 
+  summarise(total = sum(n), max = max(n), mean = mean(n))
+```
+
+Don't let the code above fool you. The first argument of `summarise()` is always a data frame, but when you use `summarise()` in a pipe, the first argument is provided by the pipe operator, `%>%`. Here the first argument will be the data frame that is returned by `babynames %>% filter(name == "Garrett", sex == "M")`.
+
+### Exercise - summarise()
+
+Use the code chunk below to compute three statistics:
+
+1. the total number of children who ever had your name
+1. the maximum number of children given your name in a single year
+1. the mean number of children given your name per year 
+
+If you cannot think of an R function that would compute each statistic, click the Hint/Solution button.
+
+```{r summarise-1, exercise = TRUE, exercise.setup = "bnames"}
+
+```
+
+```{r summarise-1-solution}
+babynames %>% 
+  filter(name == "Garrett", sex == "M") %>% 
+  summarise(total = sum(n), max = max(n), mean = mean(n))
+```
+
 
 ## %>%
 
