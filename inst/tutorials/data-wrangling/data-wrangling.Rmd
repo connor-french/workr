@@ -41,7 +41,7 @@ Click the Next Topic button to begin.
 
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
-data("spotify")
+load(file = "spotify.rda")
 ```
 
 
@@ -406,67 +406,16 @@ On Friday nights I might want some louder songs, so partiers can hear us down th
 
 ```{r arrange-5, exercise = TRUE, exercise.setup = "spotify"}
 jazz <- filter(spotify, genre == "Jazz")
+
 ```
 
 ```{r arrange-5-solution}
-arrange(spotify, desc(loudness), desc(danceability), desc(energy))
+arrange(jazz, desc(loudness), desc(danceability), desc(energy))
 ```
 
 ```{r arrange-5-check}
 "Yay for tinnitus!"
 ```
-
-## summarise()
-
-Every data frame that you meet implies more information than it displays. For example, `spotify` does not display the average energy of a genre, but `spotify` certainly implies what that number is. To discover the number, you only need to do a calculation:
-
-```{r echo = TRUE}
-spotify %>% 
-  filter(genre == "Rock") %>% 
-  summarise(avg_energy = mean(energy))
-```
-
-`summarise()` takes a data frame and uses it to calculate a new data frame of summary statistics. 
-
-### Syntax
-
-To use `summarise()`, pass it a data frame and then one or more named arguments. Each named argument should be set to an R expression that generates a single value. Summarise will turn each named argument into a column in the new data frame. The name of each argument will become the column name, and the value returned by the argument will become the column contents.
-
-### Example
-
-I used `summarise()` above to calculate the total number of songs in the "Rock" genre, but let's expand that code to also calculate 
-
-* `max` - the Rock song with the most energy 
-* `sum` - the combined
-
-```{r echo = TRUE}
-babynames %>% 
-  filter(name == "Garrett", sex == "M") %>% 
-  summarise(total = sum(n), max = max(n), mean = mean(n))
-```
-
-Don't let the code above fool you. The first argument of `summarise()` is always a data frame, but when you use `summarise()` in a pipe, the first argument is provided by the pipe operator, `%>%`. Here the first argument will be the data frame that is returned by `babynames %>% filter(name == "Garrett", sex == "M")`.
-
-### Exercise - summarise()
-
-Use the code chunk below to compute three statistics:
-
-1. the total number of children who ever had your name
-1. the maximum number of children given your name in a single year
-1. the mean number of children given your name per year 
-
-If you cannot think of an R function that would compute each statistic, click the Hint/Solution button.
-
-```{r summarise-1, exercise = TRUE, exercise.setup = "bnames"}
-
-```
-
-```{r summarise-1-solution}
-babynames %>% 
-  filter(name == "Garrett", sex == "M") %>% 
-  summarise(total = sum(n), max = max(n), mean = mean(n))
-```
-
 
 ## %>%
 
@@ -530,6 +479,57 @@ spotify %>%
   filter(danceability > 0.50) %>% 
   select(tempo, energy) %>% 
   arrange(desc(tempo))
+```
+
+## summarise()
+
+Every data frame that you meet implies more information than it displays. For example, `spotify` does not display the average energy of a genre, but `spotify` certainly implies what that number is. To discover the number, you only need to do a calculation:
+
+```{r echo = TRUE}
+spotify %>% 
+  filter(genre == "Rock") %>% 
+  summarise(avg_energy = mean(energy))
+```
+
+`summarise()` takes a data frame and uses it to calculate a new data frame of summary statistics. 
+
+### Syntax
+
+To use `summarise()`, pass it a data frame and then one or more named arguments. Each named argument should be set to an R expression that generates a single value. Summarise will turn each named argument into a column in the new data frame. The name of each argument will become the column name, and the value returned by the argument will become the column contents.
+
+### Example
+
+I used `summarise()` above to calculate the total number of songs in the "Rock" genre, but let's expand that code to also calculate 
+
+* `max` - the rock song with the most energy 
+* `sum` - the total energy of all rock songs in the data set
+
+```{r echo = TRUE}
+spotify %>% 
+  filter(genre == "Rock") %>% 
+  summarise(avg_energy = mean(energy), max_energy = max(energy), total_energy = sum(energy))
+```
+
+Wow. Look at that efficient use of pipes (`%>%`) AND `summarise()`!
+
+### Exercise - summarise()
+
+Modify the code chunk below to compute three statistics:
+
+1. the average loudness of blues songs
+1. the maximum danceability of any blues song
+1. the minimum energy of any blues song
+
+If you cannot think of an R function that would compute each statistic, click the Hint/Solution button.
+
+```{r summarise-1, exercise = TRUE, exercise.setup = "spotify"}
+
+```
+
+```{r summarise-1-solution}
+spotify %>% 
+  filter(genre == "Blues") %>% 
+  summarise(avg_loud = mean(loudness), max_dance = max(danceability), min_energy = min(energy))
 ```
 
 
