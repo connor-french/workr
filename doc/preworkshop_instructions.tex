@@ -1,0 +1,354 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Pre-workshop Installation Instructions},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Pre-workshop Installation Instructions}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
+
+\begin{document}
+\maketitle
+
+\hypertarget{installupdate-r-rstudio}{%
+\subsection{Install/Update R \& RStudio}\label{installupdate-r-rstudio}}
+
+Contents borrowed and modified from
+\href{https://uvastatlab.github.io/phdplus/intror.html}{UVA's Data
+Science Essentials in R series}
+
+\hypertarget{before-the-first-session}{%
+\subsubsection{Before the first
+session}\label{before-the-first-session}}
+
+To participate in the R workshop, please bring a laptop with R and
+RStudio installed. We recommend that you have the latest version of R
+(3.6.1), the \texttt{tidyverse} package (1.2.1), and the \texttt{learnr}
+package (0.9.2.1). You need to have RStudio installed, but it is less
+crucial that you are using the most recent version (1.2.5001).
+
+Do you already have R and RStudio installed?
+
+\begin{itemize}
+\tightlist
+\item
+  No - follow the instructions for ``I do not have R installed''\\
+\item
+  Yes - follow the instructions for ``I have R installed''
+\end{itemize}
+
+\hypertarget{i-do-not-have-r-installed}{%
+\subsubsection{``I do not have R
+installed''}\label{i-do-not-have-r-installed}}
+
+You should install R, RStudio, \texttt{tidyverse}, and \texttt{learnr}.
+
+\hypertarget{installing-r}{%
+\paragraph{Installing R}\label{installing-r}}
+
+\hypertarget{windows}{%
+\subparagraph{Windows:}\label{windows}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Go to \url{https://cloud.r-project.org/bin/windows/base/}
+\item
+  Click the ``Download R 3.6.1 for Windows'' link.
+\item
+  When the file finishes downloading, double-click to install. You
+  should be able to click ``Next'' to all dialogs to finish the
+  installation.
+\end{enumerate}
+
+\hypertarget{mac}{%
+\subparagraph{Mac:}\label{mac}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Go to \url{https://cloud.r-project.org/bin/macosx/}
+\item
+  Click the link ``R-3.6.1.pkg''
+\item
+  When the file finishes downloading, double-click to install. You
+  should be able to click ``Next'' to all dialogs to finish the
+  installation.
+\end{enumerate}
+
+\hypertarget{linux}{%
+\subparagraph{Linux:}\label{linux}}
+
+For any adventurous Linux users in our group follow
+\href{https://github.com/duckmayr/install-update-r-on-linux}{this guide}
+to install/upgrade to the most recent version of R on Ubuntu (18.04) or
+Mint (19).
+
+\hypertarget{installing-rstudio}{%
+\paragraph{Installing RStudio}\label{installing-rstudio}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Go to
+  \href{https://www.rstudio.com/products/rstudio/download/\#download}{the
+  RStudio download page}.
+\item
+  Under ``Installers for Supported Platforms'' select the appropriate
+  installer for your operating system
+\item
+  When the file finishes downloading, double-click to install. You
+  should be able to click ``Next'' to all dialogs to finish the
+  installation.
+\end{enumerate}
+
+\hypertarget{installing-tidyverse}{%
+\paragraph{\texorpdfstring{Installing
+\texttt{tidyverse}}{Installing tidyverse}}\label{installing-tidyverse}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Open RStudio
+\item
+  Go to \texttt{Tools} \textgreater{} \texttt{Install\ Packages}
+\item
+  Enter \texttt{tidyverse}
+\item
+  Select \texttt{Install}
+\end{enumerate}
+
+Follow the same protocol for installing the \texttt{learnr} package, but
+replace \texttt{tidyverse} with \texttt{learnr}.
+
+\hypertarget{i-have-r-installed}{%
+\subsubsection{``I have R installed''}\label{i-have-r-installed}}
+
+The workshops run more smoothly when everyone is using the same version
+of R, \texttt{tidyverse}, and \texttt{learnr}. Please update R,
+\texttt{tidyverse}, and \texttt{learnr} if necessary (and less
+crucially, RStudio).
+
+\hypertarget{verify-r-version}{%
+\paragraph{Verify R version}\label{verify-r-version}}
+
+Open RStudio. At the top of the Console you will see session info. The
+first line tells you which version of R you are using. If RStudio is
+already open and you're deep in a session, type
+\texttt{R.version.string} in the console and enter to print out the R
+version.
+
+Do you have R version 3.6.1 installed?
+
+\begin{itemize}
+\tightlist
+\item
+  No - follow the instructions for ``Updating R''
+\item
+  Yes - Great! Do you have \texttt{tidyverse} and \texttt{learnr}
+  installed?
+
+  \begin{itemize}
+  \tightlist
+  \item
+    No or I don't know - See ``Installing \texttt{tidyverse}''
+  \item
+    Yes - Great! Go to Go to Tools \textgreater{} Check for Package
+    Updates. If there's an update available for \texttt{tidyverse},
+    install it.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{updating-rrstudiotidyverselearnr}{%
+\paragraph{Updating
+R/RStudio/Tidyverse/learnr}\label{updating-rrstudiotidyverselearnr}}
+
+\hypertarget{windows-1}{%
+\subparagraph{Windows}\label{windows-1}}
+
+To update R on Windows, try using the package \texttt{installr} (only
+for Windows).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Install and load installr:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{install.packages}\NormalTok{(}\StringTok{"installr"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(installr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Call \texttt{updateR()} function. This will start the updating process
+  of your R installation by: ``finding the latest R version, downloading
+  it, running the installer, deleting the installation file, copy and
+  updating old packages to the new R installation.''\\
+\item
+  From within RStudio, go to Help \textgreater{} Check for Updates to
+  install newer version of RStudio (if available, optional).
+\end{enumerate}
+
+\hypertarget{mac-1}{%
+\subparagraph{Mac}\label{mac-1}}
+
+On Mac, you can simply download and install the newest version of R.
+When you restart RStudio, it will use the updated version of R.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Go to \url{https://cloud.r-project.org/bin/macosx/}\\
+\item
+  Click the link ``R-3.6.1.pkg''\\
+\item
+  When the file finishes downloading, double-click to install. You
+  should be able to click ``Next'' to all dialogs to finish the
+  installation.\\
+\item
+  From within RStudio, go to Help \textgreater{} Check for Updates to
+  install newer version of RStudio (if available, optional).\\
+\item
+  To update packages, go to Tools \textgreater{} Check for Package
+  Updates. If updates are available, select All (or just
+  \texttt{tidyverse}/\texttt{learnr}), and click Install Updates.
+\end{enumerate}
+
+\hypertarget{linux-1}{%
+\subparagraph{Linux:}\label{linux-1}}
+
+Again, for any adventurous Linux users in our group follow
+\href{https://github.com/duckmayr/install-update-r-on-linux}{this guide}
+to install/upgrade to the most recent version of R on Ubuntu (18.04) or
+Mint (19).
+
+
+\end{document}
