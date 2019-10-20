@@ -29,9 +29,9 @@ In this case study, you will explore qualities of your favorite music genres. Al
 
 * `select()` and `filter()`, which let you extract columns and rows from a data frame
 * `arrange()`, which lets you reorder the rows in your data
+* `%>%`, which organizes your code into reader-friendly "pipes"
 * `group_by()`, which lets you group your data by a factor
 * `summarize()`, which lets you perform a function on your grouped data
-* `%>%`, which organizes your code into reader-friendly "pipes"
 
 This tutorial uses the [core tidyverse packages](http://tidyverse.org/), including ggplot2, tibble, and dplyr. 
 
@@ -43,6 +43,18 @@ Click the Next Topic button to begin.
 library(tidyverse)
 load(file = "spotify.rda")
 ```
+
+### Spotify data
+
+First, let's take a look at the data set. I will demonstrate two ways to do this. The first is just to print the data set to the screen. 
+
+```{r echo = TRUE}
+spotify
+```
+
+If you've ever tried to print a large data frame to the screen in base R, this result probably surprised you. The data frame type we're using is called a `tibble`, which is a more elegant rethinking of the traditional R data frame. It will print the first few rows and columns of your data frame and provide helpful metadata about your data. For more on tibbles, look [here](https://tibble.tidyverse.org/).
+
+To get a full look at the data, I use the `View()` function from base R. This displays your data frame in a spreadsheet-like format that has basic sorting functionality. The `View()` function opens a new window that doesn't play nicely with this tutorial format, so I will leave that for you to experiment with. 
 
 
 ### Trends in your favorite music
@@ -100,7 +112,7 @@ spotify %>%
 
 This tells me a little bit more about the data, but I'm really just interested in the average. This leads us back to my first plot, which shows the average energy for each genre.
 
-Your goal in this section is to repeat this process for your own genres. Along the way, you will learn a set of functions that isolate and summarize information within a data set. 
+Your goal in this workshop is to repeat this process for your own genres. Along the way, you will learn a set of functions that isolate and summarize information within a data set. 
 
 ### Isolating data
 
@@ -113,6 +125,11 @@ This type of task occurs often in Data Science: you need to extract data from a 
 Each function takes a data frame or tibble as it's first argument and returns a new data frame or tibble as its output. 
 
 ## select()
+[![Source: dplyr cheatsheet][1]][2]
+
+[1]: images/select.png
+[2]: https://rstudio.com/resources/cheatsheets/
+
 
 `select()` extracts columns of a data frame and returns the columns  as a new data frame. To use `select()`, pass it the name of a data frame to extract columns from, and then the names of the columns to extract. The column names do not need to appear in quotation marks or be prefixed with a `$`; `select()` knows to find them in the data frame that you supply.
 
@@ -166,9 +183,13 @@ question(
 ```
 
 ### Go further
-The `mutate()` function is another highly useful tool for manipulating columns. While `select()` allows you to choose columns, `mutate()` enables you to change existing columns and add new columns. For instance, you're able perform arithmetic on numeric columns or create a new column that is a combination of two existing columns. For a light introduction, [check this out](https://dplyr.tidyverse.org/reference/mutate.html). 
+The `tidyr` package allows you to reshape your entire data frame, rather than perform simple operations with columns. It's super helpful if you need to, for instance, convert your *wide* data frame to a *long* (i.e. *tidy*) data frame. For a short introduction, [check this out](https://tidyr.tidyverse.org/)
 
 ## filter()
+
+[![Source: dplyr cheatsheet][3]][2]
+
+[3]: images/filter.png
 
 `filter()` extracts rows from a data frame and returns them as a new data frame. As with `select()`, the first argument of `filter()` should be a data frame to extract rows from. The arguments that follow should be logical tests; `filter()` will return every row for which the tests return `TRUE`.
 
@@ -344,6 +365,10 @@ The `stringr` package is very helpful for manipulating strings in R. It's part o
 
 ## arrange()
 
+[![Source: dplyr cheatsheet][4]][2]
+
+[4]: images/arrange.png
+
 `arrange()` returns all of the rows of a data frame reordered by the values of a column. As with `select()`, the first argument of `arrange()` should be a data frame and the remaining arguments should be the names of columns. If you give `arrange()` a single column name, it will return the rows of the data frame reordered so that the row with the lowest value in that column appears first, the row with the second lowest value appears second, and so on. If the column contains character strings, `arrange()` will place them in alphabetical order.
 
 ### Exercise - arrange()
@@ -448,6 +473,10 @@ The dplyr package provides a third way to write sequences of functions: the pipe
 
 ### %>%
 
+[![Source: dplyr cheatsheet][5]][2]
+
+[5]: images/pipes.png
+
 The pipe operator `%>%` performs an extremely simple task: it passes the result on its left into the first argument of the function on its right. Or put another way, `x %>% f(y)` is the same as `f(x, y)`. This piece of code punctuation makes it easy to write and read series of functions that are applied in a step by step way. For example, we can use the pipe to rewrite our code above:
 
 ```{r echo = TRUE}
@@ -483,6 +512,10 @@ spotify %>%
 
 ## summarise()
 
+[![Source: dplyr cheatsheet][6]][2]
+
+[6]: images/summarise.png
+
 Every data frame that you meet implies more information than it displays. For example, `spotify` does not display the average energy of a genre, but `spotify` certainly implies what that number is. To discover the number, you only need to do a calculation:
 
 ```{r echo = TRUE}
@@ -499,7 +532,7 @@ To use `summarise()`, pass it a data frame and then one or more named arguments.
 
 ### Example
 
-I used `summarise()` above to calculate the total number of songs in the "Rock" genre, but let's expand that code to also calculate 
+I used `summarise()` above to calculate the average energy of songs in the "Rock" genre, but let's expand that code to also calculate 
 
 * `max` - the rock song with the most energy 
 * `sum` - the total energy of all rock songs in the data set
@@ -514,7 +547,7 @@ Wow. Look at that efficient use of pipes (`%>%`) AND `summarise()`!
 
 ### Exercise - summarise()
 
-Modify the code chunk below to compute three statistics:
+Compute these three statistics:
 
 1. the average loudness of blues songs
 1. the maximum danceability of any blues song
@@ -531,5 +564,94 @@ spotify %>%
   filter(genre == "Blues") %>% 
   summarise(avg_loud = mean(loudness), max_dance = max(danceability), min_energy = min(energy))
 ```
+
+### summarise by groups?
+
+How can we apply `summarise()` to find the average energy for each genre in `spotify`? You've seen how to calculate the average energy of a genre, which gives us the answer for a single genre of interest:
+
+```{r eval = TRUE, echo = TRUE}
+spotify %>% 
+  filter(genre == "Blues") %>% 
+  summarise(avg_energy = mean(energy))
+```
+
+However, we had to isolate the genre from the rest of the data to calculate this number. You could imagine writing a program that goes through each genre one at a time and: 
+
+1. filters out the rows with just that genre
+2. applies summarise to the rows
+
+Eventually, the program could combine all of the results back into a single data set. However, you don't need to write such a program; this is the job of dplyr's `group_by()` function.
+
+## group_by()
+
+[![Source: dplyr cheatsheet][7]][2]
+
+[7]: images/group_by_1.png
+
+`group_by()` takes a data frame and then the names of one or more columns in the data frame. It returns a copy of the data frame that has been "grouped" into sets of rows that share identical combinations of values in the specified columns. 
+
+### group_by() in action
+
+For example, the result below is grouped into rows that have the same genre.
+
+```{r echo = TRUE}
+spotify %>%
+  group_by(genre)
+```
+
+### Using group_by()
+
+[![Source: dplyr cheatsheet][8]][2]
+
+[8]: images/group_by_2.png
+
+By itself, `group_by()` doesn't do much. It assigns grouping criteria that is stored as metadata alongside the original data set. If your dataset is a tibble, as above, R will tell you that the data is grouped at the top of the tibble display. In all other aspects, the data looks the same.
+
+However, when you apply a dplyr function like `summarise()` to grouped data, dplyr will execute the function in a groupwise manner. Instead of computing a single summary for the entire data set, dplyr will compute individual summaries for each group and return them as a single data frame. The data frame will contain the summary columns as well as the columns in the grouping criteria, which makes the result decipherable:
+
+```{r grouping-1, exercise = TRUE, exercise.eval = TRUE}
+spotify %>%
+  group_by(genre) %>% 
+  summarise(min_loud = min(loudness))
+```
+
+To understand exactly what `group_by()` is doing, remove the line `group_by(genre) %>%` from the code above and rerun it. How do the results change?
+
+### Go further
+The `mutate()` function is another highly useful tool for extracting unseen insights from your dataframe. While `select()` allows you to choose columns and `group_by()` allows you to summarise rows, `mutate()` enables you to perform calculations and other manipulations on all data within a column. For instance, you're able perform arithmetic on numeric columns or create a new column that is a combination of two existing columns. For a light introduction, [check this out](https://dplyr.tidyverse.org/reference/mutate.html). 
+
+## Put it all together
+Woo! You now have the tools necessary to answer our original question: Which of your favorite music genres will pep you up the most? To answer this question, you need to:
+
+1. select the columns you need (`genre` and `energy`)
+2. filter for your **6** genres of interest
+3. group the genres
+4. calculate the mean energy for each genre
+5. arrange the genres in order from most energy to least energy
+
+First, I'll show you what genres you have to work with. Although it's not a focus of this workshop, the `unique()` function is quite useful when you want to know the unique values of a variable.
+```{r}
+unique(spotify$genre)
+```
+
+
+Now time to try it out! 
+```{r final-1, exercise = TRUE, exercise.setup = "spotify"}
+
+```
+
+```{r final-1-solution}
+spotify %>% 
+  select(genre, energy) %>% 
+  filter(genre %in% c("Ska", "Rock", "Rap", "Indie", "Jazz", "Classical")) %>% 
+  group_by(genre) %>% 
+  summarize(avg_energy = mean(energy)) %>% 
+  arrange(desc(avg_energy))
+```
+
+### Recap
+Congratulations! You can use dplyr's grammar of data manipulation to access any data associated with a table---even if that data is not currently displayed by the table.
+
+In other words, you now know how to look at data in R, as well as how to access specific values and calculate summary statistics.
 
 
