@@ -1,8 +1,8 @@
 ---
 title: "Data Wrangling in R"
 tutorial:
-  id: "io.shinyapps.tutorials.02-isolating"
-  version: 0.01
+  id: "com.github-connor-french-workr"
+  version: 0.0.01
 output: 
   learnr::tutorial:
     progressive: true
@@ -15,12 +15,9 @@ runtime: shiny_prerendered
 library(learnr)
 library(tidyverse)
 
-checker_fun <- function(label, user_code, check_code, envir_result, evaluate_result, ...) {
-  list(message = check_code, correct = TRUE, location = "append")
-}
-tutorial_options(exercise.timelimit = 60, exercise.checker = checker_fun)
 knitr::opts_chunk$set(echo = FALSE)
 ```
+
 
 ## Welcome
 The layout and much of the content in this tutorial borrows from [RStudio Primers](https://rstudio.cloud/learn/primers), and the `spotify` data is modified from [this kaggle data set](https://www.kaggle.com/zaheenhamidani/ultimate-spotify-tracks-db). I would highly recommend exploring [RStudio Primers](https://rstudio.cloud/learn/primers) as they are a great resource for learning basic and intermediate R concepts!
@@ -39,9 +36,15 @@ Click the Next Topic button to begin.
 
 ## Music
 
-```{r echo = FALSE, message = FALSE, warning = FALSE}
+```{r spotify, echo = FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
-load(file = "spotify.rda")
+spotify <- workr::spotify
+
+checker <- function(label, user_code, check_code, envir_result, evaluate_result, ...) {
+  list(message = check_code, correct = TRUE, location = "append")
+}
+
+tutorial_options(exercise.timelimit = 60, exercise.checker = checker)
 ```
 
 ### Spotify data
@@ -342,7 +345,7 @@ filter(spotify, 0.4 < energy, energy < 0.7)
 filter(spotify, genre == "Alternative" | genre == "Indie" | genre == "Rock" | genre == "Ska")
 ```
 
-```{r filter-4, exercise = TRUE, exercise.setup = "bnames"}
+```{r filter-4, exercise = TRUE, exercise.setup = "spotify"}
 ```
 
 ```{r filter-4-solution}
