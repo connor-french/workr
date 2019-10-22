@@ -29,3 +29,8 @@ run_data_wrangling()
 
 After that, you should be good to go!
 
+### Slides
+We will post slide decks for each tutorial here for your convenience. 
+
+[Data Wrangling in R](https://docs.google.com/presentation/d/13UDjVg4SNJA0_7rSxaycIzg7yAG8lgK6qHz0mLq_SVE/edit?usp=sharing)
+
