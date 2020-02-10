@@ -14,15 +14,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Introduction to R
-
 Contents borrowed and modified from [UVA's Data Science Essentials in R series](https://uvastatlab.github.io/phdplus/intror.html) and RStudio's [Master the Tidyverse](https://github.com/rstudio-education/master-the-tidyverse/blob/master/slides/00-Introduction.pdf) workshop.
 
-### Installation
+## Installation
 
-Instructions for how to install and/or update R, RStudio, and the `tidyverse` package can be found [here](preworkshop_instructions.html).
+Instructions for how to install and/or update R, RStudio, and helpful R packages can be found [here](preworkshop_instructions.html).
 
-### Features of R
+## Features of R
 
 * R is free!
 * R is everywhere, and has an active user base. This is useful because you can find a lot of people in various disciplines using R in blogs, forums, Stack Overflow, etc., and you can often find help online there.
@@ -120,6 +118,18 @@ You must load the package in any new R session where you want to use that packag
 knitr::include_graphics('images/using-packages.png')
 ```
 
+### Installing packages from GitHub
+
+While there are many useful packages hosted on the CRAN (the global repository of R packages queried using `install.packages()`), you may be interested in using packages that are still in development. Many of these packages are shared on GitHub and can be downloaded using `install_github()`, a function of the `devtools` package. Below is an example of how to install the `workr` package using `devtools`.
+
+```{r, eval=FALSE}
+install.packages("devtools")
+devtools::install_github("https://github.com/natalieoshea/workr.git") 
+## If it asks to install or update packages, be sure to select "CRAN packages only" to ensure that stable packages are not replaced by bug-prone development versions
+```
+
+Including `devtools:::` before `install_github()` allows you to call the function without having to load the entire library. However, if you are planning to use additional functions from the `devtools` package you may want to fully load the package (`library(devtools)`--> `install_github()`)
+
 ## View and Change Your Working Directory
 
 The working directory is where R pulls files to work with. This is where your datasets, scripts, etc. live. It can be any folder location. (It doesn’t have to be the same folder where you installed R.)
@@ -130,6 +140,7 @@ R always has a working directory set. Get your working directory with this comma
 You can also set the working directory via point-and-click: `Session` (at the top)--> `Set Working Directory`--> `Choose Directory`
 
 ### To get your file path:
-* **Windows users**: Open File Explorer, navigate to the folder you want to use, and copy the path at the top of the window. Windows users note: the default for Windows is the `\` (backslash) to separate folders in file paths, but R requires `/` (forward-slash).
+* **Windows users**: Open File explorer, navigate to the folder you want to use, and copy the path at the top of the window. Windows users note: the default for Windows is the `\` (backslash) to separate folders in file paths, but R requires `/` (forward-slash).
 * **Mac users**: Using Finder, navigate to the folder you want to use, right click on the folder, and select “Copy Path.”
+* **Linux users**: Open File explorer, select the folder you want to use, and copy the address by right-clicking and selecting "Copy" or using the shortcut Ctl+C.
 

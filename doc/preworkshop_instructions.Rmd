@@ -14,57 +14,49 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Install/Update R & RStudio
-
 Contents borrowed and modified from [UVA's Data Science Essentials in R series](https://uvastatlab.github.io/phdplus/intror.html)
 
-### Before the first session
+## Before the first session
 
-To participate in the R workshop, please bring a laptop with R and RStudio installed. We recommend that you have the latest version of R (3.6.1), the `tidyverse` package (1.2.1), and the `learnr` package (0.9.2.1). You need to have RStudio installed, but it is less crucial that you are using the most recent version (1.2.5001).
+To participate in the R workshop, please bring a laptop with R and RStudio installed. We recommend that you have the latest version of R (3.6.1), the `tidyverse` package (1.2.1), and the `learnr` package (0.9.2.1). You will then need to use the `devtools` package to download the `workr` package we developed for our workshop tutorials. You need to have RStudio installed, but it is less crucial that you are using the most recent version (1.2.5001).
 
-Do you already have R and RStudio installed?  
+**Do you already have R and RStudio installed?**  
 
 * No - follow the instructions for “I do not have R installed”  
 * Yes - follow the instructions for “I have R installed”
 
-### “I do not have R installed”
+## “I do not have R installed”
 
 You should install R, RStudio, `tidyverse`, and `learnr`.
 
-#### Installing R
+### Installing R
 
-##### Windows:
+#### Windows:
 1. Go to https://cloud.r-project.org/bin/windows/base/
 2. Click the “Download R 3.6.1 for Windows” link.
 3. When the file finishes downloading, double-click to install. You should be able to click “Next” to all dialogs to finish the installation.
 
-##### Mac:
+#### Mac:
 1. Go to https://cloud.r-project.org/bin/macosx/
 2. Click the link “R-3.6.1.pkg”
 3. When the file finishes downloading, double-click to install. You should be able to click “Next” to all dialogs to finish the installation.
 
-##### Linux:
-For any adventurous Linux users in our group follow [this guide](https://github.com/duckmayr/install-update-r-on-linux) to install/upgrade to the most recent version of R on Ubuntu (18.04) or Mint (19).
+#### Linux:
+For any adventurous Linux users in our group follow this guide (https://github.com/duckmayr/install-update-r-on-linux) to install/upgrade to the most recent version of R on Ubuntu (18.04) or Mint (19).
 
-#### Installing RStudio
+### Installing RStudio
 1. Go to [the RStudio download page](https://www.rstudio.com/products/rstudio/download/#download).
 2. Under “Installers for Supported Platforms” select the appropriate installer for your operating system
 3. When the file finishes downloading, double-click to install. You should be able to click “Next” to all dialogs to finish the installation.
 
-#### Installing `tidyverse`
+### Installing packages
+Skip ahead to the **Installing and updating packages** section for instructions on how to install the necessary packages for our workshop.
 
-1. Open RStudio
-2. Go to `Tools` > `Install Packages`
-3. Enter `tidyverse`
-4. Select `Install`
-
-Follow the same protocol for installing the `learnr` package, but replace `tidyverse` with `learnr`.
-
-### “I have R installed”
+## “I have R installed”
 
 The workshops run more smoothly when everyone is using the same version of R,  `tidyverse`, and `learnr`. Please update R, `tidyverse`, and `learnr` if necessary (and less crucially, RStudio).
 
-#### Verify R version
+### Verify R version
 
 Open RStudio. At the top of the Console you will see session info. The first line tells you which version of R you are using. If RStudio is already open and you’re deep in a session, type `R.version.string` in the console and enter to print out the R version.
 
@@ -75,9 +67,9 @@ Do you have R version 3.6.1 installed?
   + No or I don’t know - See “Installing `tidyverse`”
   + Yes - Great! Go to Go to Tools > Check for Package Updates. If there’s an update available for `tidyverse`, install it.
 
-#### Updating R/RStudio/Tidyverse/learnr
+### Updating R/RStudio
 
-##### Windows
+#### Windows
 To update R on Windows, try using the package `installr` (only for Windows).  
 
 1. Install and load installr:  
@@ -88,14 +80,46 @@ library(installr)
 2. Call `updateR()` function. This will start the updating process of your R installation by: “finding the latest R version, downloading it, running the installer, deleting the installation file, copy and updating old packages to the new R installation.”  
 3. From within RStudio, go to Help > Check for Updates to install newer version of RStudio (if available, optional).
 
-##### Mac
+#### Mac
 On Mac, you can simply download and install the newest version of R. When you restart RStudio, it will use the updated version of R.  
 
 1. Go to https://cloud.r-project.org/bin/macosx/  
 2. Click the link “R-3.6.1.pkg”  
 3. When the file finishes downloading, double-click to install. You should be able to click “Next” to all dialogs to finish the installation.  
 4. From within RStudio, go to Help > Check for Updates to install newer version of RStudio (if available, optional).  
-5. To update packages, go to Tools > Check for Package Updates. If updates are available, select All (or just `tidyverse`/`learnr`), and click Install Updates.
 
-##### Linux:
-Again, for any adventurous Linux users in our group follow [this guide](https://github.com/duckmayr/install-update-r-on-linux) to install/upgrade to the most recent version of R on Ubuntu (18.04) or Mint (19).
+#### Linux:
+Again, for any adventurous Linux users in our group follow this guide (https://github.com/duckmayr/install-update-r-on-linux) to install/upgrade to the most recent version of R on Ubuntu (18.04) or Mint (19).
+
+## Installing and updating packages
+
+### Installing `tidyverse` and `learnr`
+
+1. Open RStudio
+2. Go to `Tools` > `Install Packages`
+3. Enter `tidyverse`
+4. Select `Install`
+
+Follow the same protocol for installing the `learnr` package, but replace `tidyverse` with `learnr`. Alternatively, you can install packages by running the command `install.packages()` in your console. You can install multiple packages as once by combining package names into a vector as follows:
+
+
+```{r, eval=FALSE}
+install.packages(c("tidyverse","learnr"))
+```
+
+### Installing `workr` using the `devtools` package
+
+While there are many useful packages hosted on the CRAN (the global repository of R packages queried using `install.packages()`), you may be interested in using packages that are still in development. Many of these packages are shared on GitHub and can be downloaded using `install_github()`, a function of the `devtools` package. Below is an example of how to install the `workr` package using `devtools`.
+
+```{r, eval=FALSE}
+install.packages("devtools")
+devtools::install_github("https://github.com/natalieoshea/workr.git") 
+## If it asks to install or update packages, be sure to select "CRAN packages only"
+```
+
+Including `devtools:::` before `install_github()` allows you to call the function without having to load the entire library. However, if you are planning to use additional functions from the `devtools` package you may want to fully load the package (`library(devtools)`--> `install_github()`)
+
+### Check for package updates
+
+If you already have all packages installed you can check for updates to CRAN packages using the `update.packages()` command or by going to `Tools`--> `Check for Package Updates`. Packages installed from GitHub can be updated using `devtools` with the `update_packages()` command. For example, to check for updates to one of our tutorials, be sure to run `devtools::update_packages(workr)` before you begin.
+
