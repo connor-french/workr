@@ -1,33 +1,46 @@
-\documentclass[]{article}
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-\else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-  \else
-    \usepackage{fontspec}
-  \fi
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Pre-workshop Installation Instructions},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
-\usepackage{hyperref}
-\hypersetup{unicode=true,
-            pdftitle={Pre-workshop Installation Instructions},
-            pdfborder={0 0 0},
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -77,72 +90,39 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{0}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 
-%%% Use protect on footnotes to avoid problems with footnotes in titles
-\let\rmarkdownfootnote\footnote%
-\def\footnote{\protect\rmarkdownfootnote}
-
-%%% Change title format to be more compact
-\usepackage{titling}
-
-% Create subtitle command for use in maketitle
-\providecommand{\subtitle}[1]{
-  \posttitle{
-    \begin{center}\large#1\end{center}
-    }
-}
-
-\setlength{\droptitle}{-2em}
-
-  \title{Pre-workshop Installation Instructions}
-    \pretitle{\vspace{\droptitle}\centering\huge}
-  \posttitle{\par}
-    \author{}
-    \preauthor{}\postauthor{}
-    \date{}
-    \predate{}\postdate{}
-  
+\title{Pre-workshop Installation Instructions}
+\author{}
+\date{\vspace{-2.5em}}
 
 \begin{document}
 \maketitle
-
-\hypertarget{installupdate-r-rstudio}{%
-\subsection{Install/Update R \& RStudio}\label{installupdate-r-rstudio}}
 
 Contents borrowed and modified from
 \href{https://uvastatlab.github.io/phdplus/intror.html}{UVA's Data
 Science Essentials in R series}
 
 \hypertarget{before-the-first-session}{%
-\subsubsection{Before the first
-session}\label{before-the-first-session}}
+\subsection{Before the first session}\label{before-the-first-session}}
 
 To participate in the R workshop, please bring a laptop with R and
 RStudio installed. We recommend that you have the latest version of R
-(3.6.1), the \texttt{tidyverse} package (1.2.1), and the \texttt{learnr}
-package (0.9.2.1). You need to have RStudio installed, but it is less
-crucial that you are using the most recent version (1.2.5001).
+(3.6.*), the \texttt{tidyverse} package (1.2), the \texttt{learnr}
+package (0.9), and the \texttt{here} package (0.1). You will then need
+to use the \texttt{devtools} package to download the \texttt{workr}
+package we developed for our workshop tutorials. You need to have
+RStudio installed, but it is less crucial that you are using the most
+recent version (1.2).
 
-Do you already have R and RStudio installed?
+\textbf{Do you already have R and RStudio installed?}
 
 \begin{itemize}
 \tightlist
@@ -153,16 +133,17 @@ Do you already have R and RStudio installed?
 \end{itemize}
 
 \hypertarget{i-do-not-have-r-installed}{%
-\subsubsection{``I do not have R
+\subsection{``I do not have R
 installed''}\label{i-do-not-have-r-installed}}
 
-You should install R, RStudio, \texttt{tidyverse}, and \texttt{learnr}.
+You should install R, RStudio, \texttt{tidyverse}, \texttt{learnr}, and
+\texttt{here}.
 
 \hypertarget{installing-r}{%
-\paragraph{Installing R}\label{installing-r}}
+\subsubsection{Installing R}\label{installing-r}}
 
 \hypertarget{windows}{%
-\subparagraph{Windows:}\label{windows}}
+\paragraph{Windows:}\label{windows}}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -170,7 +151,8 @@ You should install R, RStudio, \texttt{tidyverse}, and \texttt{learnr}.
 \item
   Go to \url{https://cloud.r-project.org/bin/windows/base/}
 \item
-  Click the ``Download R 3.6.1 for Windows'' link.
+  Click the ``Download R 3.6.1 for Windows'' link. (Or whatever the
+  newest version is)
 \item
   When the file finishes downloading, double-click to install. You
   should be able to click ``Next'' to all dialogs to finish the
@@ -178,7 +160,7 @@ You should install R, RStudio, \texttt{tidyverse}, and \texttt{learnr}.
 \end{enumerate}
 
 \hypertarget{mac}{%
-\subparagraph{Mac:}\label{mac}}
+\paragraph{Mac:}\label{mac}}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -194,15 +176,15 @@ You should install R, RStudio, \texttt{tidyverse}, and \texttt{learnr}.
 \end{enumerate}
 
 \hypertarget{linux}{%
-\subparagraph{Linux:}\label{linux}}
+\paragraph{Linux:}\label{linux}}
 
-For any adventurous Linux users in our group follow
-\href{https://github.com/duckmayr/install-update-r-on-linux}{this guide}
-to install/upgrade to the most recent version of R on Ubuntu (18.04) or
+For any adventurous Linux users in our group follow this guide
+(\url{https://github.com/duckmayr/install-update-r-on-linux}) to
+install/upgrade to the most recent version of R on Ubuntu (18.04) or
 Mint (19).
 
 \hypertarget{installing-rstudio}{%
-\paragraph{Installing RStudio}\label{installing-rstudio}}
+\subsubsection{Installing RStudio}\label{installing-rstudio}}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -220,28 +202,14 @@ Mint (19).
   installation.
 \end{enumerate}
 
-\hypertarget{installing-tidyverse}{%
-\paragraph{\texorpdfstring{Installing
-\texttt{tidyverse}}{Installing tidyverse}}\label{installing-tidyverse}}
+\hypertarget{installing-packages}{%
+\subsubsection{Installing packages}\label{installing-packages}}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Open RStudio
-\item
-  Go to \texttt{Tools} \textgreater{} \texttt{Install\ Packages}
-\item
-  Enter \texttt{tidyverse}
-\item
-  Select \texttt{Install}
-\end{enumerate}
-
-Follow the same protocol for installing the \texttt{learnr} package, but
-replace \texttt{tidyverse} with \texttt{learnr}.
+Skip ahead to the \textbf{Installing and updating packages} section for
+instructions on how to install the necessary packages for our workshop.
 
 \hypertarget{i-have-r-installed}{%
-\subsubsection{``I have R installed''}\label{i-have-r-installed}}
+\subsection{``I have R installed''}\label{i-have-r-installed}}
 
 The workshops run more smoothly when everyone is using the same version
 of R, \texttt{tidyverse}, and \texttt{learnr}. Please update R,
@@ -249,7 +217,7 @@ of R, \texttt{tidyverse}, and \texttt{learnr}. Please update R,
 crucially, RStudio).
 
 \hypertarget{verify-r-version}{%
-\paragraph{Verify R version}\label{verify-r-version}}
+\subsubsection{Verify R version}\label{verify-r-version}}
 
 Open RStudio. At the top of the Console you will see session info. The
 first line tells you which version of R you are using. If RStudio is
@@ -257,15 +225,15 @@ already open and you're deep in a session, type
 \texttt{R.version.string} in the console and enter to print out the R
 version.
 
-Do you have R version 3.6.1 installed?
+Do you have R version 3.6.* installed?
 
 \begin{itemize}
 \tightlist
 \item
   No - follow the instructions for ``Updating R''
 \item
-  Yes - Great! Do you have \texttt{tidyverse} and \texttt{learnr}
-  installed?
+  Yes - Great! Do you have \texttt{tidyverse}, \texttt{learnr}, and
+  \texttt{here} installed?
 
   \begin{itemize}
   \tightlist
@@ -278,12 +246,11 @@ Do you have R version 3.6.1 installed?
   \end{itemize}
 \end{itemize}
 
-\hypertarget{updating-rrstudiotidyverselearnr}{%
-\paragraph{Updating
-R/RStudio/Tidyverse/learnr}\label{updating-rrstudiotidyverselearnr}}
+\hypertarget{updating-rrstudio}{%
+\subsubsection{Updating R/RStudio}\label{updating-rrstudio}}
 
 \hypertarget{windows-1}{%
-\subparagraph{Windows}\label{windows-1}}
+\paragraph{Windows}\label{windows-1}}
 
 To update R on Windows, try using the package \texttt{installr} (only
 for Windows).
@@ -317,7 +284,7 @@ for Windows).
 \end{enumerate}
 
 \hypertarget{mac-1}{%
-\subparagraph{Mac}\label{mac-1}}
+\paragraph{Mac}\label{mac-1}}
 
 On Mac, you can simply download and install the newest version of R.
 When you restart RStudio, it will use the updated version of R.
@@ -328,27 +295,95 @@ When you restart RStudio, it will use the updated version of R.
 \item
   Go to \url{https://cloud.r-project.org/bin/macosx/}\\
 \item
-  Click the link ``R-3.6.1.pkg''\\
+  Click the link ``R-3.6.1.pkg'' (or whatever the latest version is)
 \item
   When the file finishes downloading, double-click to install. You
   should be able to click ``Next'' to all dialogs to finish the
   installation.\\
 \item
   From within RStudio, go to Help \textgreater{} Check for Updates to
-  install newer version of RStudio (if available, optional).\\
-\item
-  To update packages, go to Tools \textgreater{} Check for Package
-  Updates. If updates are available, select All (or just
-  \texttt{tidyverse}/\texttt{learnr}), and click Install Updates.
+  install newer version of RStudio (if available, optional).
 \end{enumerate}
 
 \hypertarget{linux-1}{%
-\subparagraph{Linux:}\label{linux-1}}
+\paragraph{Linux:}\label{linux-1}}
 
-Again, for any adventurous Linux users in our group follow
-\href{https://github.com/duckmayr/install-update-r-on-linux}{this guide}
-to install/upgrade to the most recent version of R on Ubuntu (18.04) or
+Again, for any adventurous Linux users in our group follow this guide
+(\url{https://github.com/duckmayr/install-update-r-on-linux}) to
+install/upgrade to the most recent version of R on Ubuntu (18.04) or
 Mint (19).
 
+\hypertarget{installing-and-updating-packages}{%
+\subsection{Installing and updating
+packages}\label{installing-and-updating-packages}}
+
+\hypertarget{installing-tidyverse-learnr-and-here}{%
+\subsubsection{\texorpdfstring{Installing \texttt{tidyverse},
+\texttt{learnr}, and
+\texttt{here}}{Installing tidyverse, learnr, and here}}\label{installing-tidyverse-learnr-and-here}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Open RStudio
+\item
+  Go to \texttt{Tools} \textgreater{} \texttt{Install\ Packages}
+\item
+  Enter \texttt{tidyverse}
+\item
+  Select \texttt{Install}
+\end{enumerate}
+
+Follow the same protocol for installing the rest of the packages, but
+replace \texttt{tidyverse} with the package names. Alternatively, you
+can install packages by running the command \texttt{install.packages()}
+in your console. You can install multiple packages as once by combining
+package names into a vector as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{install.packages}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{,}\StringTok{"learnr"}\NormalTok{, }\StringTok{"here"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{installing-workr-using-the-devtools-package}{%
+\subsubsection{\texorpdfstring{Installing \texttt{workr} using the
+\texttt{devtools}
+package}{Installing workr using the devtools package}}\label{installing-workr-using-the-devtools-package}}
+
+While there are many useful packages hosted on the CRAN (the global
+repository of R packages queried using \texttt{install.packages()}), you
+may be interested in using packages that are still in development. Many
+of these packages are shared on GitHub and can be downloaded using
+\texttt{install\_github()}, a function of the \texttt{devtools} package.
+Below is an example of how to install the \texttt{workr} package using
+\texttt{devtools}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{install.packages}\NormalTok{(}\StringTok{"devtools"}\NormalTok{)}
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{install_github}\NormalTok{(}\StringTok{"https://github.com/natalieoshea/workr.git"}\NormalTok{) }
+\CommentTok{## If it asks to install or update packages, be sure to select "CRAN packages only"}
+\end{Highlighting}
+\end{Shaded}
+
+Including \texttt{devtools:::} before \texttt{install\_github()} allows
+you to call the function without having to load the entire library.
+However, if you are planning to use additional functions from the
+\texttt{devtools} package you may want to fully load the package
+(\texttt{library(devtools)}--\textgreater{} \texttt{install\_github()})
+
+\hypertarget{check-for-package-updates}{%
+\subsubsection{Check for package
+updates}\label{check-for-package-updates}}
+
+If you already have all packages installed you can check for updates to
+CRAN packages using the \texttt{update.packages()} command or by going
+to \texttt{Tools}--\textgreater{} \texttt{Check\ for\ Package\ Updates}.
+Packages installed from GitHub can be updated using \texttt{devtools}
+with the \texttt{update\_packages()} command. For example, to check for
+updates to one of our tutorials, be sure to run
+\texttt{devtools::update\_packages(workr)} before you begin.
 
 \end{document}
