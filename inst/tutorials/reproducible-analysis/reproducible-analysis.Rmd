@@ -634,7 +634,7 @@ One more appearance feature that you can play with to alter your document's appe
 
 ------
 
-After you've had some time to play around with themes, let's see what your document should look like. Follow [this link]() to see what I came up with and compare what you have.
+After you've had some time to play around with themes, let's see what your document should look like. Follow [this link](reproducible-analysis_files/repro-workshop.html) to see what I came up with and compare what you have.
 
 
 > ## Recap
