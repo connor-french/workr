@@ -18,7 +18,7 @@ In your R console:
 # If you haven't, please install the devtools R package (remove the hash (#) symbol to run this code in your console)
 # install.packages("devtools")
 
-devtools::install_github("https://github.com/connor-french/workr.git", build_vignettes = TRUE)
+devtools::install_github("https://github.com/natalieoshea/workr.git", build_vignettes = TRUE)
 ```
 
 ### Beginning a workshop
