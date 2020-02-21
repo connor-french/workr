@@ -7,19 +7,12 @@ The goal of this workshop is to teach you how to produce useful graphics with `g
 In this workshop you'll learn:
 
 * The basics of the grammar of graphics
-
 * About the `mpg` dataset included with `ggplot2`
-
 * The three key components of every plot: data, aesthetics and geoms
-  
 * How to add additional variables to a plot with aesthetics
-  
 * How to display additional categorical variables in a plot using small multiples created by facetting
-
 * A variety of different geoms that you can use to create different types of plots
-
 * How to modify the axes
-
 * Things you can do with a plot object other than display it, like save it to disk
 
 The content of much of this tutorial is taken from the book ["ggplot2: Elegant Graphics for Data Analysis"](https://ggplot2-book.org/) by Hadley Wickham.
@@ -486,3 +479,5 @@ You can also plug into a community of R enthusiasts within the GC and globally!
 - [GC Digital Initiatives](https://gcdi.commons.gc.cuny.edu/calendar/): Keep an eye on the GCDI calendar to learn about user groups, workshops, office hours, and more!
 - [R Users' Group](https://commons.gc.cuny.edu/groups/rug-r-users-group/): Working group at the GC focused on R... welcomes users of all skill levels!
 - [R for Data Science Slack Group](https://www.rfordatasci.com/): Working through the R for Data Science book? Join this slack group to get help with all your questions!
+
+![](images/wrap-up.jpg)
