@@ -16,9 +16,10 @@ These workshops rely on the `tidyverse` and `learnr` packages, so be sure to ins
 
 In your R console:
 ```
-# If you haven't, please install the devtools R package (remove the hash (#) symbol to run this code in your console)
-# install.packages("devtools")
+# If you haven't, please install the devtools R package
+install.packages("devtools")
 
+# with devtools installed, run this command to install the package
 devtools::install_github("https://github.com/natalieoshea/workr.git", build_vignettes = TRUE)
 ```
 
