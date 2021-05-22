@@ -21,7 +21,7 @@ In your R console:
 install.packages("remotes")
 
 # with devtools installed, run this command to install the package
-remotes::install_github("connor-french/workr", build_vignettes = TRUE)
+remotes::install_github("natalieoshea/workr", build_vignettes = TRUE)
 ```
 
 ### Beginning a workshop
