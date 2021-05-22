@@ -1,10 +1,11 @@
 # workr
 `workr` is a package to house a series of R workshops authored by [Graduate Center Digital Fellows](https://digitalfellows.commons.gc.cuny.edu/) Connor French and Natalie O'Shea. The workshops are in service of the CUNY [Graduate Center Digital Initiatives](https://gcdi.commons.gc.cuny.edu/), which "brings together the work of leading scholars and technologists at the CUNY Graduate Center to pioneer new modes of inquiry that integrate digital tools and methods into the research, teaching, and service missions of the university."
 
-There are currently three workshops in the series:
-* Data Wrangling in R. First hosted at the CUNY Graduate Center on 10/22/2019
-* Reproducible Data Analysis in R. First hosted at the CUNY Graduate Center on 2/19/2020
-* Data Visualization in R. First hosted at the CUNY Graduate Center on 2/26/2020
+There are currently two workshops in the series:  
+
+* Data Wrangling in R. First hosted at the CUNY Graduate Center on 10/22/2019  
+
+* Reproducible Data Analysis in R. First hosted at the CUNY Graduate Center on 2/19/2020  
 
 The package will be updated with new workshops as they become available.
 
@@ -16,11 +17,11 @@ These workshops rely on the `tidyverse` and `learnr` packages, so be sure to ins
 
 In your R console:
 ```
-# If you haven't, please install the devtools R package
-install.packages("devtools")
+# If you haven't, please install the remotes R package
+install.packages("remotes")
 
 # with devtools installed, run this command to install the package
-devtools::install_github("https://github.com/natalieoshea/workr.git", build_vignettes = TRUE)
+remotes::install_github("connor-french/workr", build_vignettes = TRUE)
 ```
 
 ### Beginning a workshop
