@@ -18,7 +18,7 @@ Contents borrowed and modified from [UVA's Data Science Essentials in R series](
 
 ## Before the first session
 
-To participate in the R workshop, please bring a laptop with R and RStudio installed. We recommend that you have the latest version of R (3.6.*), the `tidyverse` package (1.2), the `learnr` package (0.9), and the `here` package (0.1). You will then need to use the `devtools` package to download the `workr` package we developed for our workshop tutorials. You need to have RStudio installed, but it is less crucial that you are using the most recent version (1.2).
+To participate in the R workshop, please bring a laptop with R and RStudio installed. We recommend that you have the latest version of R (3.6.*), the `tidyverse` package (1.2), the `learnr` package (0.9), and the `here` package (0.1). You will then need to use the `remotes` package to download the `workr` package we developed for our workshop tutorials. You need to have RStudio installed, but it is less crucial that you are using the most recent version (1.2).
 
 **Do you already have R and RStudio installed?**  
 
@@ -107,19 +107,19 @@ Follow the same protocol for installing the rest of the packages, but replace `t
 install.packages(c("tidyverse","learnr", "here"))
 ```
 
-### Installing `workr` using the `devtools` package
+### Installing `workr` using the `remotes`` package
 
-While there are many useful packages hosted on the CRAN (the global repository of R packages queried using `install.packages()`), you may be interested in using packages that are still in development. Many of these packages are shared on GitHub and can be downloaded using `install_github()`, a function of the `devtools` package. Below is an example of how to install the `workr` package using `devtools`.
+While there are many useful packages hosted on the CRAN (the global repository of R packages queried using `install.packages()`), you may be interested in using packages that are still in development. Many of these packages are shared on GitHub and can be downloaded using `install_github()`, a function of the `remotes` package. Below is an example of how to install the `workr` package using `remotes`.
 
 ```{r, eval=FALSE}
-install.packages("devtools")
-devtools::install_github("https://github.com/natalieoshea/workr.git") 
+install.packages("remotes")
+remotes::install_github("connor-french/workr") 
 ## If it asks to install or update packages, be sure to select "CRAN packages only"
 ```
 
-Including `devtools:::` before `install_github()` allows you to call the function without having to load the entire library. However, if you are planning to use additional functions from the `devtools` package you may want to fully load the package (`library(devtools)`--> `install_github()`)
+Including `remotes::` before `install_github()` allows you to call the function without having to load the entire library. However, if you are planning to use additional functions from the `remotes` package you may want to fully load the package (`library(remotes)`--> `install_github()`)
 
 ### Check for package updates
 
-If you already have all packages installed you can check for updates to CRAN packages using the `update.packages()` command or by going to `Tools`--> `Check for Package Updates`. Packages installed from GitHub can be updated using `devtools` with the `update_packages()` command. For example, to check for updates to one of our tutorials, be sure to run `devtools::update_packages(workr)` before you begin.
+If you already have all packages installed you can check for updates to CRAN packages using the `update.packages()` command or by going to `Tools`--> `Check for Package Updates`. Packages installed from GitHub can be updated using `remotes` with the `update_packages()` command. For example, to check for updates to one of our tutorials, be sure to run `remotes::update_packages(workr)` before you begin.
 

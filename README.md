@@ -1,5 +1,5 @@
 # workr
-`workr` is a package to house a series of R workshops authored by [Graduate Center Digital Fellows](https://digitalfellows.commons.gc.cuny.edu/) Connor French and Natalie O'Shea. The workshops are in service of the CUNY [Graduate Center Digital Initiatives](https://gcdi.commons.gc.cuny.edu/), which "brings together the work of leading scholars and technologists at the CUNY Graduate Center to pioneer new modes of inquiry that integrate digital tools and methods into the research, teaching, and service missions of the university."
+`workr` is a package to house a series of R workshops authored by [Graduate Center Digital Fellows](https://digitalfellows.commons.gc.cuny.edu/) [Connor French](https://github.com/connor-french) and [Natalie O'Shea](https://github.com/natalieoshea). The workshops are in service of the CUNY [Graduate Center Digital Initiatives](https://gcdi.commons.gc.cuny.edu/), which "brings together the work of leading scholars and technologists at the CUNY Graduate Center to pioneer new modes of inquiry that integrate digital tools and methods into the research, teaching, and service missions of the university."
 
 There are currently two workshops in the series:  
 
@@ -42,7 +42,7 @@ After that, you should be good to go!
 ### Slides
 We will post slide decks for each tutorial here for your convenience. 
 
-[Data Wrangling in R](https://docs.google.com/presentation/d/13UDjVg4SNJA0_7rSxaycIzg7yAG8lgK6qHz0mLq_SVE/edit?usp=sharing)  
+[Data Wrangling in R](https://docs.google.com/presentation/d/1iRSUHexMkW7Z3WPaHLQ3iJJ7Bx1RLC_uuLdJvyLgi8M/edit?usp=sharing)  
 
-[Reproducible Data Analysis in R](https://docs.google.com/presentation/d/1moc4hftV9hZNsVD48vA6fkoxbIOrXZYbDj8IfJZNKkA/edit?usp=sharing)
+[Reproducible Data Analysis in R](https://docs.google.com/presentation/d/1WS93WoGQq2s36qwNTa4pxbNf3wh_ruxYHIX30Lm1_Fc/edit?usp=sharing)
 
