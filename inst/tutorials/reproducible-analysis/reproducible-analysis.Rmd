@@ -180,7 +180,7 @@ Then you need to give your report a title (don't stress over it, you can change 
 
 ![](images/document-choice.png)
 
-Now, you need to save the file and put it in the correct directory. Since this is a report file, I like to put it in the top directory. However, it's alright to put it in your `R` folder or a special `reports` folder if you plan on making multiple R Markdown reports for the same project. 
+Now, you need to save the file and put it in the correct directory. I like to put report files in a special `reports` folder, but they would be equally okay in the top directory or `R` directory. 
 
 R Markdown reports rely on three frameworks
 
@@ -355,6 +355,7 @@ Let's do some analysis! You're going to take a look at the `starwars` data set t
 4) Visualize some results
 5) Output session information
 
+-----
 
 #### 1) Load in packages and data
 
@@ -364,13 +365,15 @@ knitr::include_graphics("images/baby-yoda.jpg")
 
 
 For your first chunk, under the **Data processing** header, load in the `tidyverse` package using the `library()` function. Then, in the same chunk, assign the `starwars` data set to an object, like this:
-```starwars_df <- dplyr::starwars```. Finally, take a glance at the data set by printing it. You just need to type `starwars_df` at the bottom of the chunk for it to print.  
+```starwars_df <- dplyr::starwars```. You'll have to remove a few columns that don't obey `.csv` file specifications. Finally, take a glance at the data set by printing it. You just need to type `starwars_df` at the bottom of the chunk for it to print.  
 
 Your chunk should look like this:
 ```{r, eval=FALSE}
 library(tidyverse)
 
-starwars_df <- dplyr::starwars
+# remove list-columns. They don't write out well
+starwars_df <- dplyr::starwars %>% 
+  select(-c(films, vehicles, starships))
 
 starwars_df
 ```
@@ -388,14 +391,8 @@ Usually you will already have a data set sitting in your `data` folder ready to 
 Add `library(here)` to your code chunk to load the package. Then, use this bit of code to assign the path and file name of your data frame to an object.  
 
 ```{r eval=FALSE}
-# assign the data directory
-data_dir <- here("data")
-
-# name the file
-file_name <- "starwars_raw.csv"
-
-# concatenate the two strings together
-df_path <- paste(data_dir, file_name, sep = "/")
+# create the full path
+df_path <- here("data", "starwars_raw.csv")
 ```
 
 
@@ -433,16 +430,12 @@ starwars_sum <- starwars_df %>%
 starwars_sum
 ```
 
-If the above code looks foreign to you, don't worry! The [workr](https://github.com/natalieoshea/workr) package contains a data wrangling tutorial that can bring you up to speed. Once you have the package loaded, all you need to do is execute the `run_data_wrangling()` function to work through the interactive tutorial.  
+If the above code looks foreign to you, don't worry! The [workr](https://github.com/natalieoshea/workr) package contains a data wrangling tutorial that can bring you up to speed. Once you have the package loaded, all you need to do is execute the `run_data_wrangling()` function to work through the interactive tutorial. Don't do that now, though!  
 
 Let's write this new data frame to a file. Since this isn't raw data, you're not writing it to the `data` folder. Instead, write it to the `output/spreadsheets` folder. Let's name this file `summary_stats.csv`. Paste the below code into a new chunk under your **Data processing** header. 
 
 ```{r eval=FALSE}
-sum_dir <- here("output", "spreadsheets")
-
-sum_file <- "summary_stats.csv"
-
-sum_path <- paste(sum_dir, sum_file, sep = "/")
+sum_path <- here("output", "spreadsheets", "summary_stats.csv")
 
 write_csv(starwars_sum, sum_path)
 ```
@@ -534,7 +527,7 @@ sd_mass_plot
 There are ways to create a single graphic for all five plots, [but I'll leave that up to you](https://github.com/thomasp85/patchwork). 
 
 
-Now time to write the plots to your output directory! Make this the last chunk of your **Data visualization** section.
+Now time to write the plots to your output directory! Make this the last chunk of your **Data visualization** section. I would recommend adding `message=FALSE` to your chunk header because `ggsave()` likes to output the image size as a message, which makes things a bit messy.
 ```{r eval=FALSE}
 plot_dir <- here("output", "figures")
 
@@ -567,7 +560,6 @@ ggsave(paste(plot_dir, "sd_mass.png", sep = "/"),
 ```
 
 
-
 Add a short summary of your results at the end, then you're all finished with analyses! But you still have one more task to complete.  
 
 -----
@@ -584,7 +576,7 @@ si
 
 Here is the code for writing the session info to the `doc` folder.
 ```{r eval=FALSE}
-si_path <- paste(here("doc"), "session_info.txt", sep = "/")
+si_path <- here("doc", "session_info.txt")
 
 # write session info to the doc folder
 writeLines(capture.output(sessionInfo()), si_path)
@@ -612,7 +604,7 @@ The following are some common values ```output:``` recognizes:
 
 * ```html_document```, which will create HTML output (default)
 * ```pdf_document```, which will create PDF output
-* ```word_document``, which will create Word output
+* ```word_document```, which will create Word output
 
 There are a variety, most of which [you can find here](https://rmarkdown.rstudio.com/lesson-9.html).  
 
@@ -640,5 +632,15 @@ and rendering it again. Your code highlighting should look a bit different. [The
 
 One more appearance feature that you can play with to alter your document's appearance is the `theme`. This will overhall your document's appearance, with options from the [Bootswatch](https://bootswatch.com/3/) theme library. 
 
------
+------
 
+After you've had some time to play around with themes, let's see what your document should look like. Follow [this link](reproducible-analysis_files/repro-workshop.html) to see what I came up with and compare what you have.
+
+
+> ## Recap
+> You are now well on your way to making your own research reproducible! Lets see what you've learned:
+
+> * R Projects 
+> * Appropriate file management techniques
+> * R Markdown
+> * Maybe even some data wrangling and data viz skills!

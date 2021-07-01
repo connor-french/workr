@@ -1,7 +1,13 @@
 # workr
-`workr` is a package to house a series of R workshops authored by [Graduate Center Digital Fellows](https://digitalfellows.commons.gc.cuny.edu/) Connor French and Natalie O'Shea. The workshops are in service of the CUNY [Graduate Center Digital Initiatives](https://gcdi.commons.gc.cuny.edu/), which "brings together the work of leading scholars and technologists at the CUNY Graduate Center to pioneer new modes of inquiry that integrate digital tools and methods into the research, teaching, and service missions of the university."
+`workr` is a package to house a series of R workshops authored by [Graduate Center Digital Fellows](https://digitalfellows.commons.gc.cuny.edu/) [Connor French](https://github.com/connor-french) and [Natalie O'Shea](https://github.com/natalieoshea). The workshops are in service of the CUNY [Graduate Center Digital Initiatives](https://gcdi.commons.gc.cuny.edu/), which "brings together the work of leading scholars and technologists at the CUNY Graduate Center to pioneer new modes of inquiry that integrate digital tools and methods into the research, teaching, and service missions of the university."
 
-The first workshop in the series is the "Data Wrangling in R" workshop hosted at the CUNY Graduate Center on 10/22/2019. The package will be updated with new workshops as they become available.
+There are currently two workshops in the series:  
+
+* Data Wrangling in R. First hosted at the CUNY Graduate Center on 10/22/2019  
+
+* Reproducible Data Analysis in R. First hosted at the CUNY Graduate Center on 2/19/2020  
+
+The package will be updated with new workshops as they become available.
 
 ## Getting started
 
@@ -11,10 +17,11 @@ These workshops rely on the `tidyverse` and `learnr` packages, so be sure to ins
 
 In your R console:
 ```
-# If you haven't, please install the devtools R package (remove the hash (#) symbol to run this code in your console)
-# install.packages("devtools")
+# If you haven't, please install the remotes R package
+install.packages("remotes")
 
-devtools::install_github("https://github.com/connor-french/workr.git", build_vignettes = TRUE)
+# with devtools installed, run this command to install the package
+remotes::install_github("natalieoshea/workr", build_vignettes = TRUE)
 ```
 
 ### Beginning a workshop
@@ -25,6 +32,9 @@ library(workr)
 
 # Data Wrangling in R Workshop
 run_data_wrangling()
+
+# Reproducible Data Analysis in R Workshop
+run_repro_analysis()
 ```
 
 After that, you should be good to go!
@@ -32,5 +42,7 @@ After that, you should be good to go!
 ### Slides
 We will post slide decks for each tutorial here for your convenience. 
 
-[Data Wrangling in R](https://docs.google.com/presentation/d/13UDjVg4SNJA0_7rSxaycIzg7yAG8lgK6qHz0mLq_SVE/edit?usp=sharing)
+[Data Wrangling in R](https://docs.google.com/presentation/d/1iRSUHexMkW7Z3WPaHLQ3iJJ7Bx1RLC_uuLdJvyLgi8M/edit?usp=sharing)  
+
+[Reproducible Data Analysis in R](https://docs.google.com/presentation/d/1WS93WoGQq2s36qwNTa4pxbNf3wh_ruxYHIX30Lm1_Fc/edit?usp=sharing)
 
